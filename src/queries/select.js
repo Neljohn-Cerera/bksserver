@@ -6,7 +6,7 @@ const select_user =
   "FROM tblusers AS u, tblhousehold AS h " +
   "WHERE u.hhID = h.hhID AND isActive = 1";
 const select_user_admin_username =
-  "SELECT l.username , l.p_assword " +
+  "SELECT l.userID, l.username , l.p_assword " +
   "FROM tbllogin AS l, tblusers AS u " +
   "WHERE l.userID = u.userID AND l.userName = ? AND l.roleID = '1' AND u.isActive = 1";
 const select_user_userID =

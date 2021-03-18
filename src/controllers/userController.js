@@ -12,6 +12,7 @@ const select = require("../queries/select");
 const user_login = (req, res) => {
   const user = req.body.username;
   const password = req.body.password;
+  console.log(`Username: ${user} and password: ${password}`);
   db.query(select.select_user_admin_username, user, function (err, result) {
     console.log("Login result : ", result);
     if (err) {
@@ -43,6 +44,36 @@ const user_login = (req, res) => {
       res.status(404).json({ message: "User Doesn't Exist", auth: false });
     }
   });
+};
+//Retrieve user client informations
+const user_client_informations = (req, res) => {
+  const { userID } = req.params;
+  db.query(
+    "SELECT * FROM view_user_info_household WHERE userID = ? ",
+    userID,
+    (err, result) => {
+      if (err) {
+        console.log("Inter Error", err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+//Retrieve user client HOUSEHOLD
+const user_client_household = (req, res) => {
+  const { hhID } = req.params;
+  db.query(
+    "SELECT * FROM view_user_household WHERE household_ID = ? ",
+    hhID,
+    (err, result) => {
+      if (err) {
+        console.log("Inter Error", err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
 };
 
 //Retrieve users
@@ -93,7 +124,7 @@ const user_create = (req, res) => {
     userName,
     password,
   } = req.body;
-  console.log("bday :",birthDate)
+  console.log("bday :", birthDate);
 
   bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {
@@ -205,6 +236,8 @@ const user_delete = (req, res) => {
 module.exports = {
   user_login,
   user_view,
+  user_client_informations,
+  user_client_household,
   user_create,
   user_view_userID,
   user_update,

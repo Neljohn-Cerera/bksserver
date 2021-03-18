@@ -67,7 +67,7 @@ const request_insert = (req, res) => {
     [userID, certificateName, purpose, status],
     (err, result) => {
       if (err) {
-        res.sendStatus(500).send("Insert  request internal Error");
+        res.status(500).send("Insert  request internal Error");
         console.log("Insert  request internal Error", err);
       } else {
         res
@@ -93,7 +93,8 @@ const request_update_status = (req, res) => {
     [status, requestID, barangayID_no, "employeeName"],
     (err, result) => {
       if (err) {
-        res.sendStatus(500).send("Update request status internal error");
+        res.status(500).send("Update request status internal error");
+        console.log("request err", err);
       } else {
         res.status(201).json({
           message: "Update request status successfull",
