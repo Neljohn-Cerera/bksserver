@@ -36,7 +36,7 @@ router.get("/view", userController.user_view);
 //Create using the middleware verifyJWT for authentication
 router.get("/client/info/:userID", userController.user_client_informations);
 //Create using the middleware verifyJWT for authentication
-router.get("/household/:hhID", userController.user_client_household);
+router.get("/household/:userID", userController.user_client_household);
 router.post("/create", userController.user_create);
 //Retrieve with USER ID using the middleware verifyJWT for authentication
 router.get("/:userID", userController.user_view_userID);

@@ -5,6 +5,8 @@ const app = express();
 const user = require("./routes/userRoutes");
 const request = require("./routes/requestRoutes");
 const logs = require("./routes/logsRoutes");
+const settings = require("./routes/settingsRoutes");
+const reports = require("./routes/reportRoutes");
 
 /* Middel Wares */
 app.use(express.json());
@@ -23,6 +25,10 @@ app.use("/api/user", user);
 app.use("/api/request", request);
 // Logs
 app.use("/api/logs", logs);
+// Settings
+app.use("/api/settings", settings);
+// Reports
+app.use("/api/reports", reports);
 
 /*PORTS */
 const port = 3001;

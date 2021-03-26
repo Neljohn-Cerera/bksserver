@@ -22,17 +22,21 @@ const pendingall = (req, res) => {
 //Retrieve request by status name
 const request_retrieve_byStatus = (req, res) => {
   const status = req.params.status;
-  db.query(select.request_retrieve_byStatus, status, (err, result) => {
-    if (err) {
-      console.log("Inter Error", err);
-      res.json({ message: "not successfull" });
-    } else {
-      res.json({
-        message: "retrieve request by status successfull",
-        result: result,
-      });
+  db.query(
+    "SELECT * FROM view_request_approve_disapprove where status = ? ",
+    status,
+    (err, result) => {
+      if (err) {
+        console.log("Inter Error", err);
+        res.json({ message: "not successfull" });
+      } else {
+        res.json({
+          message: "retrieve request by status successfull",
+          result: result,
+        });
+      }
     }
-  });
+  );
 };
 //Retrieve all Request
 const request_retrieve_all = (req, res) => {
@@ -86,11 +90,10 @@ const request_insert = (req, res) => {
 const request_update_status = (req, res) => {
   const requestID = req.params.requestID;
   const { status, barangayID_no } = req.body;
-  console.log("request id", requestID);
-  console.log("status", status);
+
   db.query(
     "CALL sp_approve_disapprove_request(?,?,?,?)",
-    [status, requestID, barangayID_no, "employeeName"],
+    [status, requestID, barangayID_no, 123],
     (err, result) => {
       if (err) {
         res.status(500).send("Update request status internal error");

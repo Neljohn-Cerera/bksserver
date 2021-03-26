@@ -1,21 +1,9 @@
 //User
-const select_user =
-  "Select " +
-  "userID,h.household_ID,barangayID_no,fullName,age,gender, " +
-  "birthDate,birthPlace,civilStatus,address " +
-  "FROM tblusers AS u, tblhousehold AS h " +
-  "WHERE u.hhID = h.hhID AND isActive = 1";
 const select_user_admin_username =
   "SELECT l.userID, l.username , l.p_assword " +
   "FROM tbllogin AS l, tblusers AS u " +
   "WHERE l.userID = u.userID AND l.userName = ? AND l.roleID = '1' AND u.isActive = 1";
-const select_user_userID =
-  "SELECT u.userID,l.username,h.household_ID,barangayID_no,fullName,age,gender, " +
-  "birthDate,birthPlace,civilStatus,address " +
-  "FROM tblusers AS u, tblhousehold AS h, tbllogin l " +
-  "WHERE u.hhID = h.hhID AND u.userID = l.userID AND isActive = 1 AND u.userID = ?";
 const select_user_account = "Select userName from tbllogin where userID=?";
-
 //request
 const request_retrieve_pending =
   "SELECT COUNT(*) AS Pendings FROM tblrequest WHERE userID = ? AND statusID = '1'";
@@ -27,21 +15,18 @@ const request_retrieve_all =
   "u.fullName,c.certificateName,r.purpose,s.status " +
   "FROM tblrequest AS r, tblstatus AS s, tblusers AS u, tblcertificates AS c " +
   "WHERE r.userID = u.userID AND r.certificateID = c.certificateID  AND r.statusID = s.statusID ";
-const request_retrieve_byStatus =
-  "SELECT r.requestID,r.r_date, r.r_time,u.barangayID_no,u.fullName,c.certificateName,r.purpose,s.status " +
-  "FROM tblrequest AS r , tblusers AS u, tblcertificates AS c, tblstatus AS s " +
-  "WHERE r.userID = u.UserID AND r.certificateID = C.certificateID " +
-  "AND r.statusID = s.statusID AND STATUS = ?";
+// const request_retrieve_byStatus =
+//   "SELECT r.requestID,r.r_date, r.r_time,u.barangayID_no,u.fullName,c.certificateName,r.purpose,s.status " +
+//   "FROM tblrequest AS r , tblusers AS u, tblcertificates AS c, tblstatus AS s " +
+//   "WHERE r.userID = u.UserID AND r.certificateID = C.certificateID " +
+//   "AND r.statusID = s.statusID AND STATUS = ?";
 const request__all = "Select * from tblrequest";
 
 module.exports = {
-  select_user,
-  select_user_userID,
   select_user_admin_username,
   select_user_account,
   request_retrieve_pending,
   request_retrieve_pending_all,
   request_retrieve_all,
-  request_retrieve_byStatus,
   request__all,
 };

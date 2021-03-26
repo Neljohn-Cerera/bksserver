@@ -49,7 +49,7 @@ const user_login = (req, res) => {
 const user_client_informations = (req, res) => {
   const { userID } = req.params;
   db.query(
-    "SELECT * FROM view_user_info_household WHERE userID = ? ",
+    "SELECT * FROM view_user_info_household WHERE userID = ? LIMIT 1",
     userID,
     (err, result) => {
       if (err) {
@@ -62,23 +62,19 @@ const user_client_informations = (req, res) => {
 };
 //Retrieve user client HOUSEHOLD
 const user_client_household = (req, res) => {
-  const { hhID } = req.params;
-  db.query(
-    "SELECT * FROM view_user_household WHERE household_ID = ? ",
-    hhID,
-    (err, result) => {
-      if (err) {
-        console.log("Inter Error", err);
-      } else {
-        res.send(result);
-      }
+  const { userID } = req.params;
+  db.query("Call sp_retrieve_user_household ( ? ) ", userID, (err, result) => {
+    if (err) {
+      console.log("Inter Error", err);
+    } else {
+      res.send(result);
     }
-  );
+  });
 };
 
 //Retrieve users
 const user_view = (req, res) => {
-  db.query(select.select_user, (err, result) => {
+  db.query("SELECT * FROM view_allusers", (err, result) => {
     if (err) {
       console.log("Inter Error", err);
     } else {
@@ -100,7 +96,7 @@ const user_view_account = (req, res) => {
 const user_view_userID = (req, res) => {
   const id = req.params.userID;
   console.log("user id :", id);
-  db.query(select.select_user_userID, id, (err, result) => {
+  db.query("CALL sp_retrieve_user_informations(?)", id, (err, result) => {
     if (err) {
       console.log("Inter Error", err);
     } else {
@@ -170,33 +166,38 @@ const user_create = (req, res) => {
 const user_update = (req, res) => {
   const {
     barangayID_no,
-    houseHoldID_no,
     fullName,
     age,
     gender,
+    birthDate,
     birthPlace,
-    civiStatus,
+    civilStatus,
     address,
+    username,
+    household_ID,
+    householdrole,
   } = req.body;
   const id = req.params.userID;
   db.query(
-    "CALL sp_update_userInformations_updateLog(?,?,?,?,?,?,?,?,?,?)",
+    "CALL sp_update_userInformations_updateLog(?,?,?,?,?,?,?,?,?,?,?,?)",
     [
       barangayID_no,
-      houseHoldID_no,
       fullName,
       age,
       gender,
+      birthDate,
       birthPlace,
-      civiStatus,
+      civilStatus,
       address,
       id,
-      "id2021",
+      username,
+      household_ID,
+      householdrole,
     ],
     (err, result) => {
       if (err) {
         console.log("Internal Error", err);
-        res.sendStatus(500).json({ messgae: "Internal error" });
+        res.status(500).json({ messgae: "Internal error" });
       } else {
         const userID = id;
         const token = jwt.sign({ userID }, process.env.SECRET_KEY);
@@ -214,13 +215,15 @@ const user_update = (req, res) => {
 const user_delete = (req, res) => {
   const { barangayID_no } = req.body;
   const id = req.params.userID;
+  console.log("barangay id no", barangayID_no);
+  console.log("user id no", id);
   db.query(
     "CALL sp_delete_userInformations_deleteLog(?,?)",
     [id, barangayID_no],
     (err, result) => {
       if (err) {
         console.log("Internal Error", err);
-        res.sendStatus(500).send("Internal error");
+        res.status(500).send("Internal error");
       } else {
         const userID = id;
         const token = jwt.sign({ userID }, process.env.SECRET_KEY);
@@ -228,6 +231,7 @@ const user_delete = (req, res) => {
           message: "User Deleted successfully",
           auth: true,
         });
+        console.log("Delete user sueccessfull");
       }
     }
   );
