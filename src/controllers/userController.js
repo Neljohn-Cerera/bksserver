@@ -12,8 +12,7 @@ const select = require("../queries/select");
 const user_login = (req, res) => {
   const user = req.body.username;
   const password = req.body.password;
-  console.log(`Username: ${user} and password: ${password}`);
-  db.query(select.select_user_admin_username, user, function (err, result) {
+  db.query(select.select_user_username, user, function (err, result) {
     console.log("Login result : ", result);
     if (err) {
       console.log("Login Internal Error", err);
@@ -75,16 +74,6 @@ const user_client_household = (req, res) => {
 //Retrieve users
 const user_view = (req, res) => {
   db.query("SELECT * FROM view_allusers", (err, result) => {
-    if (err) {
-      console.log("Inter Error", err);
-    } else {
-      res.send(result);
-    }
-  });
-};
-//Retrieve users
-const user_view_account = (req, res) => {
-  db.query(select.select_user, (err, result) => {
     if (err) {
       console.log("Inter Error", err);
     } else {

@@ -89,11 +89,11 @@ const request_insert = (req, res) => {
 //Update Request status
 const request_update_status = (req, res) => {
   const requestID = req.params.requestID;
-  const { status, barangayID_no } = req.body;
+  const { employeeID,status, barangayID_no } = req.body;
 
   db.query(
     "CALL sp_approve_disapprove_request(?,?,?,?)",
-    [status, requestID, barangayID_no, 123],
+    [status, requestID, barangayID_no, employeeID],
     (err, result) => {
       if (err) {
         res.status(500).send("Update request status internal error");

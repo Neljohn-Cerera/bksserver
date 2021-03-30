@@ -1,8 +1,8 @@
 //User
-const select_user_admin_username =
+const select_user_username =
   "SELECT l.userID, l.username , l.p_assword " +
   "FROM tbllogin AS l, tblusers AS u " +
-  "WHERE l.userID = u.userID AND l.userName = ? AND l.roleID = '1' AND u.isActive = 1";
+  "WHERE l.userID = u.userID AND l.userName = ? AND u.isActive = 1";
 const select_user_account = "Select userName from tbllogin where userID=?";
 //request
 const request_retrieve_pending =
@@ -23,7 +23,7 @@ const request_retrieve_all =
 const request__all = "Select * from tblrequest";
 
 module.exports = {
-  select_user_admin_username,
+  select_user_username,
   select_user_account,
   request_retrieve_pending,
   request_retrieve_pending_all,
