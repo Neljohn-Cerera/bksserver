@@ -65,10 +65,11 @@ const request_retrieve_pending = (req, res) => {
 };
 //Insert Request
 const request_insert = (req, res) => {
-  const { userID, certificateName, purpose, status } = req.body;
+  const { userID, certificateName, payment, purpose, status } = req.body;
+  console.log("payment", payment);
   db.query(
     insert.request_insert,
-    [userID, certificateName, purpose, status],
+    [userID, certificateName, payment, purpose, status],
     (err, result) => {
       if (err) {
         res.status(500).send("Insert  request internal Error");
@@ -89,7 +90,9 @@ const request_insert = (req, res) => {
 //Update Request status
 const request_update_status = (req, res) => {
   const requestID = req.params.requestID;
-  const { employeeID,status, barangayID_no } = req.body;
+  const { employeeID, status, barangayID_no } = req.body;
+
+  console.log("employee id", employeeID);
 
   db.query(
     "CALL sp_approve_disapprove_request(?,?,?,?)",

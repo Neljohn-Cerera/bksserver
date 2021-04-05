@@ -12,9 +12,9 @@ const request_retrieve_pending_all =
 const request_retrieve_all =
   "Select " +
   "requestID,r.r_date,r.r_time,u.barangayID_no, " +
-  "u.fullName,c.certificateName,r.purpose,s.status " +
-  "FROM tblrequest AS r, tblstatus AS s, tblusers AS u, tblcertificates AS c " +
-  "WHERE r.userID = u.userID AND r.certificateID = c.certificateID  AND r.statusID = s.statusID ";
+  "u.fullName,c.certificateName,r.purpose,p.`payment`,s.status " +
+  "FROM tblrequest AS r, tblstatus AS s, tblusers AS u, tblcertificates AS c, tblpayment AS p  " +
+  "WHERE r.userID = u.userID AND r.certificateID = c.certificateID AND r.`paymentid` = p.`paymentid` AND r.statusID = s.statusID ";
 // const request_retrieve_byStatus =
 //   "SELECT r.requestID,r.r_date, r.r_time,u.barangayID_no,u.fullName,c.certificateName,r.purpose,s.status " +
 //   "FROM tblrequest AS r , tblusers AS u, tblcertificates AS c, tblstatus AS s " +
