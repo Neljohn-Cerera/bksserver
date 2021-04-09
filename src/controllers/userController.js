@@ -12,6 +12,8 @@ const select = require("../queries/select");
 const user_login = (req, res) => {
   const user = req.body.username;
   const password = req.body.password;
+  console.log("user", user);
+  console.log("password", password);
   db.query(select.select_user_username, user, function (err, result) {
     console.log("Login result : ", result);
     if (err) {

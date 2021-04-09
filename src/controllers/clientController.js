@@ -30,6 +30,23 @@ const client_update = (req, res) => {
   );
 };
 
+//Retrieve user client informations
+const client_history_records = (req, res) => {
+  const { userID } = req.params;
+  db.query(
+    "SELECT * FROM view_all_client_request WHERE userID = ?",
+    userID,
+    (err, result) => {
+      if (err) {
+        console.log("Inter Error", err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
+
 module.exports = {
   client_update,
+  client_history_records,
 };

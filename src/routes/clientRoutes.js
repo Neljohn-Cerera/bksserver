@@ -32,4 +32,6 @@ const verifyJWT = (req, res, next) => {
 
 router.put("/update/:userID", verifyJWT, clientController.client_update);
 
+router.get("/request/:userID", clientController.client_history_records);
+
 module.exports = router;
